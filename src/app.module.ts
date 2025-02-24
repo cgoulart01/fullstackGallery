@@ -1,21 +1,13 @@
-import * as dotenv from 'dotenv';
 import { Module } from '@nestjs/common';
-import { ItemsModule } from './items/item.module';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
-
-
-dotenv.config();
+import { DatabaseModule } from './config/database.module';
+import { ItemsModule } from './items/items.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.MONGO_API || ""),
-    ItemsModule
+    DatabaseModule,
+    ItemsModule, // 🔹 Agora o ItemsService pode usar o SupabaseService corretamente
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule { }
